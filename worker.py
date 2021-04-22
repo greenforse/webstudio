@@ -9,17 +9,21 @@ class Worker():
         self.name=name
         self.score=0
         self.departament=departament
-        self.run = False
+        self.spendDays=0
 
-    def taskRun(self,day):    #поставил переменную day, планирую в  мейне(вайле)  вызывать каждый раз таскран и под конеч выдвать результат работы
-        taskDays +=1
-        complete=False
-        if taskDays == day and random.randint(1,100) > self.completeChance:
+    def taskRun(self,task):    #поставил переменную day, планирую в  мейне(вайле)  вызывать каждый раз таскран и под конеч выдвать результат работы
+        self.spendDays+=1
+        if random.randint(1,100) < self.completeChance and self.spendDays == task.deadlines[self.departament.number]:
             print("Выполнено в срок")
-            complete=True
+            self.spendDays=0
             self.score+=1
-        if complete == False:
-            self.run = True
-        else: self.run = False
+        if self.spendDays > task.deadlines[self.departament.number] and random.randint(1,100) < self.completeChance :
+            print("выполнена не в срок")
+            self.spendDays = 0
+            self.score -= 1
+            self.departament.chief.score -= 1
+        #if complete == False:
+        #    self.run = True
+        #else: self.run = False
     def getScore(self):
         return self.score
