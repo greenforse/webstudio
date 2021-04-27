@@ -40,7 +40,7 @@ DepFront.subscribe(DepBack)
 DepBack.subscribe(Clist)
 
 day=0
-while len(Clist.complete) < 10:
+while Clist.complete < 10:
     if day < 11:
         task=Task(random.randint(2,5),random.randint(2,5),random.randint(2,5))
         DepDesign.worklist.append(task)

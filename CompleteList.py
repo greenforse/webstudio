@@ -1,6 +1,6 @@
 from Observer import Observer
 class CompleteList(Observer):
     def __init__(self):
-        self.complete=[]
+        self.complete=0
     def addTask(self,task):
-        self.complete.append(task)
+        self.complete=+1

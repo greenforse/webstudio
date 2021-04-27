@@ -8,10 +8,12 @@ class Departament(Observer):
         self.observers=[]
         self.worklist=[]
         self.chief = None
+        self.freeWorkerList=[]
         #self.ready=False #пометочка
     def addWorker(self,worker):
         if not worker.chief :
             self.workerList.append(worker)
+            self.freeWorkerList.append(worker)
         else:
             self.addChief(worker)
     def addChief(self,chief):
@@ -38,25 +40,35 @@ class Departament(Observer):
         self.worklist.append(task)
 
     def run(self):
-        if len(self.worklist)!=0:
+        while len(self.worklist)!=0 and len(self.freeWorkerList)!=0:
             self.selectWorker(self.worklist[0])
             del self.worklist[0]
+        for worker in self.workerList:
+            worker.taskRun()
 
     def selectWorker(self,task):
-        self.ready= False
+        self.freeWorkerList=[]
         for worker in self.workerList:
-            if worker.task == None :
-                worker.taskRun(task)
-                #del self.worklist[0]
-                self.ready=True
-        if self.ready == False and self.chief.task== None:
-            self.chief.taskRun(task)
-            #del self.worklist[0]
-            self.ready = True
-        if self.ready == False:
-            self.addTask(task)
-        #    pass
-            
+            if worker.task == None:
+                self.freeWorkerList.append(worker)
+        if len(self.freeWorkerList)!=0:
+            self.freeWorkerList[0].addTask(task)
+        elif self.chief.task==None:
+            self.chief.addTask(task)
+        else: self.addTask(task)
+        #for worker in self.workerList:
+        #    if worker.task == None :
+        #        worker.taskRun(task)
+        #        #del self.worklist[0]
+        #        self.ready=True
+        #if self.ready == False and self.chief.task== None:
+        #    self.chief.taskRun(task)
+        #    #del self.worklist[0]
+        #    self.ready = True
+        #if self.ready == False:
+        #    self.addTask(task)
+        ##    pass
+        #    
 
 
         

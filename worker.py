@@ -12,22 +12,25 @@ class Worker():
         self.spendDays=0
         self.task=None
 
-    def taskRun(self,task):   
-        self.spendDays+=1
+    def addTask(self,task):
         self.task=task
-        if random.randint(1,100) < self.completeChance and self.spendDays == self.task.deadlines[self.departament.number]:
-            print("Выполнено в срок")
-            self.spendDays=0
-            self.score+=1
-            self.departament.notify(task)
-            self.task=None
-        if self.spendDays > self.task.deadlines[self.departament.number] and random.randint(1,100) < self.completeChance :
-            print("выполнена не в срок")
-            self.spendDays = 0
-            self.score -= 1
-            self.departament.chief.score -= 1
-            self.department.notify(task)
-            self.task=None
+
+    def taskRun(self):   
+        if self.task != None :
+            self.spendDays+=1
+            if random.randint(1,100) < self.completeChance and self.spendDays == self.task.deadlines[self.departament.number]:
+                print("Выполнено в срок")
+                self.spendDays=0
+                self.score+=1
+                self.departament.notify(self.task)
+                self.task=None
+            elif self.spendDays > self.task.deadlines[self.departament.number] and random.randint(1,100) < self.completeChance :
+                print("выполнена не в срок")
+                self.spendDays = 0
+                self.score -= 1
+                self.departament.chief.score -= 1
+                self.departament.notify(self.task)
+                self.task=None
 
     def getName(self):
         return self.name
