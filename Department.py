@@ -8,6 +8,7 @@ class Departament(Observer):
         self.observers=[]
         self.worklist=[]
         self.chief = None
+        #self.ready=False #пометочка
     def addWorker(self,worker):
         if not worker.chief :
             self.workerList.append(worker)
@@ -27,24 +28,34 @@ class Departament(Observer):
             self.observers[i]=observer
             del self.observers[i]
 
-    def notify(self):
+    def notify(self,task):
         for observer in self.observers:
-            observer.run()
+            observer.addTask(task)
+    
+        
+
+    def addTask(self,task):
+        self.worklist.append(task)
 
     def run(self):
-        pass
+        if len(self.worklist)!=0:
+            self.selectWorker(self.worklist[0])
+            del self.worklist[0]
 
     def selectWorker(self,task):
-        ready= False
+        self.ready= False
         for worker in self.workerList:
-            if worker.spendDays == 0 :
+            if worker.task == None :
                 worker.taskRun(task)
-                ready=True
-        if ready == False and self.chief.spendDays:
+                #del self.worklist[0]
+                self.ready=True
+        if self.ready == False and self.chief.task== None:
             self.chief.taskRun(task)
-            ready = True
-        if ready == False: 
-            pass
+            #del self.worklist[0]
+            self.ready = True
+        if self.ready == False:
+            self.addTask(task)
+        #    pass
             
 
 

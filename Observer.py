@@ -1,5 +1,5 @@
 from abc import ABCMeta, abstractmethod
-class Observer(metaclass=abstractmethod):
+class Observer():
     def __init__(self):
         pass
     
