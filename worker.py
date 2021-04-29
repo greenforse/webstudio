@@ -19,13 +19,13 @@ class Worker():
         if self.task != None :
             self.spendDays+=1
             if random.randint(1,100) < self.completeChance and self.spendDays == self.task.deadlines[self.departament.number]:
-                print("Выполнено в срок")
+                print(f"Выполнено в срок{self.departament.number}")
                 self.spendDays=0
                 self.score+=1
                 self.departament.notify(self.task)
                 self.task=None
             elif self.spendDays > self.task.deadlines[self.departament.number] and random.randint(1,100) < self.completeChance :
-                print("выполнена не в срок")
+                print(f"выполнена не в срок {self.departament.number}")
                 self.spendDays = 0
                 self.score -= 1
                 self.departament.chief.score -= 1

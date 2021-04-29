@@ -40,14 +40,19 @@ DepFront.subscribe(DepBack)
 DepBack.subscribe(Clist)
 
 day=0
+zadanie=0
 while Clist.complete < 10:
-    if day < 11:
+#while day < 20:
+    if day < 10:
         task=Task(random.randint(2,5),random.randint(2,5),random.randint(2,5))
-        DepDesign.worklist.append(task)
+        DepDesign.addTask(task)
+        zadanie+=1
+        print("Поступило задание", zadanie)
     DepDesign.run()
     DepFront.run()
     DepBack.run()
     day += 1
+    #print(" Прошел один день")
 print(" Отдел дизайна ")
 for worker in DepDesign.workerList:
     print(f"{worker.getName()}:{worker.getScore()}")

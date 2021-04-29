@@ -33,6 +33,7 @@ class Departament(Observer):
     def notify(self,task):
         for observer in self.observers:
             observer.addTask(task)
+            print(" нотифай ")
     
         
 
@@ -40,19 +41,26 @@ class Departament(Observer):
         self.worklist.append(task)
 
     def run(self):
-        while len(self.worklist)!=0 and len(self.freeWorkerList)!=0:
-            self.selectWorker(self.worklist[0])
-            del self.worklist[0]
-        for worker in self.workerList:
-            worker.taskRun()
-
-    def selectWorker(self,task):
         self.freeWorkerList=[]
         for worker in self.workerList:
             if worker.task == None:
                 self.freeWorkerList.append(worker)
+        while len(self.worklist) != 0 and len(self.freeWorkerList) != 0 or len(self.worklist) != 0 and self.chief.task != None  :
+            self.selectWorker(self.worklist[0])
+            del self.worklist[0]
+            print(" выбор сотруника ", self.number)
+        for worker in self.workerList:
+            worker.taskRun()
+            #print(" выбор сотруника ")
+
+    def selectWorker(self,task):
+        #self.freeWorkerList=[]
+        #for worker in self.workerList:
+        #    if worker.task == None:
+        #        self.freeWorkerList.append(worker)
         if len(self.freeWorkerList)!=0:
             self.freeWorkerList[0].addTask(task)
+            del self.freeWorkerList[0]
         elif self.chief.task==None:
             self.chief.addTask(task)
         else: self.addTask(task)
